@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #2e3edf;
+    --primary-hover: #404cd4;
+
+    --bg-blue: #2e3edf;
+    --bg-dark-gray: #181818;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+
+    --text-white: #ffffff;
+    --text-gray: #b3b3b3;
+    --text-dark: #333333;
+
+    --input-bg: #333333;
+    --error-color: #ff5e00;
+
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+    text-decoration: none;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-dark-gray);
+    color: var(--text-white);
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1920px;
+}
