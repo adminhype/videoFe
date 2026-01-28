@@ -23,6 +23,7 @@
     position: relative;
     text-decoration: none;
     scroll-behavior: smooth;
+    font-family: "dm", sans-serif;
 }
 
 body {
@@ -34,4 +35,13 @@ body {
 .container {
     width: 100%;
     max-width: 1920px;
+}
+
+@font-face {
+    font-family: "dm";
+    src: url(../public/fonts/dm-sans-v15-latin-regular.woff2) format("woff2");
+}
+
+.dm {
+    font-family: "dm";
 }
