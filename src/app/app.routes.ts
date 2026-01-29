@@ -8,8 +8,8 @@ import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { PrivacyComponent } from './features/legal/privacy/privacy.component';
 
 export const routes: Routes = [
-    { path: '', component: LandingComponent },
-    { path: 'login', component: LoginComponent },
+    { path: 'landing', component: LandingComponent },
+    { path: '', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
