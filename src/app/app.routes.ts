@@ -9,8 +9,8 @@ import { PrivacyComponent } from './features/legal/privacy/privacy.component';
 
 export const routes: Routes = [
     { path: 'landing', component: LandingComponent },
-    { path: '', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent },
+    { path: '', component: RegisterComponent },
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },

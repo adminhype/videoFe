@@ -122,7 +122,7 @@
     background-color: var(--bg-blue);
     color: var(--text-white);
     border: none;
-    border-radius: 50px;
+    border-radius: var(--border-radius);
     padding: 0.8rem 3rem;
     font-size: 1.1rem;
     font-weight: bold;

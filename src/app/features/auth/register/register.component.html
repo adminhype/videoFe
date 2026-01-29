@@ -1,1 +1,80 @@
-<p>register works!</p>
+<div class="bg-container">
+    <img src="assets/images/sign_up_bg.jpg" alt="Background" class="bg-image">
+    <div class="bg-overlay"></div>
+</div>
+<app-header></app-header>
+<div class="register-wrapper">
+
+    <main class="content-center">
+        <div class="register-card">
+            <h1>Sign Up</h1>
+            
+            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+                <!-- TODO: error handle-->
+        
+                <!-- email -->
+                <div class="input-container">
+                    <img src="assets/icons/mail.png" alt="Email" class="input-icon left">
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Email" 
+                        required 
+                        email
+                        [(ngModel)]="registerData.email"
+                        #emailModel="ngModel"
+                        class="videoflix-input">
+                </div>
+
+                <!-- password -->
+                <div class="input-container">
+                    <img src="assets/icons/password.png" alt="Password" class="input-icon left">
+                    <input 
+                        [type]="passwordVisible ? 'text' : 'password'" 
+                        name="password" 
+                        placeholder="Password" 
+                        required 
+                        minlength="6"
+                        [(ngModel)]="registerData.password"
+                        #passwordModel="ngModel"
+                        class="videoflix-input">
+                    <img 
+                        src="assets/icons/visibility.svg" 
+                        alt="Toggle" 
+                        class="input-icon right clickable"
+                        (click)="togglePasswordVisibility()">
+                </div>
+
+                <!-- confirm password -->
+                <div class="input-container" [class.input-error]="!passwordsMatch() && confirmPasswordModel.touched">
+                    <img src="assets/icons/password.png" alt="Confirm Password" class="input-icon left">
+                    <input 
+                        [type]="confirmPasswordVisible ? 'text' : 'password'" 
+                        name="confirmPassword" 
+                        placeholder="Confirm Password" 
+                        required 
+                        [(ngModel)]="registerData.confirmPassword"
+                        #confirmPasswordModel="ngModel"
+                        class="videoflix-input">
+                    <img 
+                        src="assets/icons/visibility.svg" 
+                        alt="Toggle" 
+                        class="input-icon right clickable"
+                        (click)="toggleConfirmPasswordVisibility()">
+                </div>
+                <!-- TODO: checkbox -->
+                <div class="btn-container">
+                    <button 
+                        type="submit" 
+                        class="btn-submit" 
+                        [disabled]="!registerForm.form.valid || !passwordsMatch()">
+                        Get Started
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+<app-footer></app-footer>
+</div>
+
