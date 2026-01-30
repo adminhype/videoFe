@@ -7,12 +7,14 @@ import { VideoPlayerComponent } from './features/video-player/video-player.compo
 import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { PrivacyComponent } from './features/legal/privacy/privacy.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 
 export const routes: Routes = [
     { path: 'landing', component: LandingComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: '', component: ForgotPasswordComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: '', component: ResetPasswordComponent},
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },
