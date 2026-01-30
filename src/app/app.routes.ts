@@ -6,11 +6,13 @@ import { LandingComponent } from './features/auth/landing/landing.component';
 import { VideoPlayerComponent } from './features/video-player/video-player.component';
 import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { PrivacyComponent } from './features/legal/privacy/privacy.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     { path: 'landing', component: LandingComponent },
     { path: 'login', component: LoginComponent },
-    { path: '', component: RegisterComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: '', component: ForgotPasswordComponent },
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },
