@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 
@@ -20,6 +20,7 @@ export class LoginComponent {
 
   showPassword = false;
 
+  private router = inject(Router);
   constructor() {}
 
   togglePasswordVisibility() {
@@ -29,6 +30,7 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginData.email && this.loginData.password) {
       console.log('Login attempt:', this.loginData);
+      this.router.navigate(['/browse']);
       // TODO: api call later
     }
   }
