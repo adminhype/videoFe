@@ -1,1 +1,65 @@
-<p>video-player works!</p>
+<div class="player-container" (mousemove)="showControls()" (touchstart)="showControls()">
+    <!-- TODO: mockups -->
+    <video 
+        #videoPlayer 
+        class="video-element" 
+        src="assets/videos/comedy.mp4" 
+        (timeupdate)="onTimeUpdate()"
+        (ended)="onVideoEnded()"
+        (loadedmetadata)="onMetadataLoaded()">
+    </video>
+
+    <div class="controls-overlay" [class.hidden]="!controlsVisible">
+        
+        <header class="player-header">
+            <div class="header-left">
+                <img src="assets/icons/logo_icon_small.svg" alt="Videoflix" class="logo">
+                <span class="video-title">Majestic whales</span>
+            </div>
+            <button class="btn-icon" (click)="closePlayer()">
+                <img src="assets/icons/close.png" alt="Close">
+            </button>
+        </header>
+
+        <div class="center-controls">
+            <button class="btn-secondary" (click)="skip(-10)">
+                <img src="assets/icons/replay_10.png" alt="-10s">
+            </button>
+
+            <button class="btn-primary-play" (click)="togglePlay()">
+                @if (isPlaying) {
+                    <img src="assets/icons/pause.png" alt="Pause">
+                } @else {
+                    <img src="assets/icons/play_arrow.png" alt="Play" class="play-icon">
+                }
+            </button>
+
+            <button class="btn-secondary" (click)="skip(10)">
+                <img src="assets/icons/forward_10.png" alt="+10s">
+            </button>
+        </div>
+
+        <div class="bottom-controls">
+            
+            <div class="progress-area">
+                <input 
+                    type="range" 
+                    min="0" 
+                    [max]="duration" 
+                    [value]="currentTime" 
+                    (input)="onSeek($event)"
+                    class="progress-bar"
+                    [style.background-size]="getProgressPercentage() + '% 100%'">
+                
+                <span class="time-display">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
+            </div>
+
+            <div class="speed-area">
+                <button class="btn-speed">
+                    <img src="assets/icons/speed.png" alt="Speed">
+                    <span>Speed</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

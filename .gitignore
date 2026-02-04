@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+/public/assets/videos
 
 # Node
 /node_modules

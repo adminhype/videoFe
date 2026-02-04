@@ -15,7 +15,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'reset-password', component: ResetPasswordComponent},
-    { path: '', component: DashboardComponent },
+    { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'privacy', component: PrivacyComponent },
