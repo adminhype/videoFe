@@ -1,5 +1,42 @@
-<div class="dashboard-wrapper">
-    <!-- Dashboard Header -->
+@if (selectedMobileVideo) {
+<div class="mobile-detail-view">
+    <header class="dashboard-header transparent">
+        <a (click)="closeDetail()" class="logo-link clickable">
+            <img src="assets/icons/logo_icon_small.svg" alt="Back" class="logo">
+        </a>
+        
+        <button class="btn-logout" (click)="onLogout()">
+            <span>Log Out</span>
+        </button>
+    </header>
+
+    <div class="detail-content">
+        <div class="detail-image-wrapper">
+            <img [src]="selectedMobileVideo.thumbnail" [alt]="selectedMobileVideo.title" class="detail-bg">
+            <div class="gradient-overlay-bottom"></div>
+        </div>
+
+        <div class="detail-info">
+            <h1>{{ selectedMobileVideo.title }}</h1>
+            
+            <p class="description">
+                {{ selectedMobileVideo.description }}
+            </p>
+
+            <button class="btn-play-large" [routerLink]="['/watch', selectedMobileVideo.id]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 3L19 12L5 21V3Z" fill="white"/>
+                </svg>
+                Play
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- main content  -->
+<div class="dashboard-wrapper" [class.no-scroll]="selectedMobileVideo">
+    
     <header class="dashboard-header">
         <a routerLink="/browse" class="logo-link">
             <img src="assets/icons/logo_icon_small.svg" alt="Videoflix" class="logo">
@@ -11,14 +48,37 @@
     </header>
 
     <main class="content-area">
-        <!-- TODO: hero section  -->
+        
+        <!-- hero section -->
+        @if (heroVideo) {
+        <section class="hero-section">
+            <div class="hero-bg">
+                <img [src]="heroVideo.thumbnail" [alt]="heroVideo.title" class="hero-img">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1>{{ heroVideo.title }}</h1>
+                <p class="hero-description">{{ heroVideo.description }}</p>
+                
+                <button class="btn-play-hero" [routerLink]="['/watch', heroVideo.id]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 3L19 12L5 21V3Z" fill="white"/>
+                    </svg>
+                    Play
+                </button>
+            </div>
+        </section>
+        }
+
+        <!-- categories list  -->
         @for (category of categories; track category.name) {
             <section class="category-section">
                 <h2>{{ category.name }}</h2>
                 
                 <div class="video-scroll-container">
                     @for (video of category.videos; track video.title) {
-                        <div class="video-item" [routerLink]="['/watch', video.id]">
+                        <div class="video-item" (click)="openDetail(video)">
                             <img [src]="video.thumbnail" [alt]="video.title" class="thumbnail">
                         </div>
                     }
