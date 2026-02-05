@@ -10,10 +10,29 @@
             <h1>Movies, TV shows, and more</h1>
             <div class="sub-container">
                 <p>Enter your email to create or restart your subscription.</p>
-                <div class="email-form">
-                    <input type="email" placeholder="Email Address" class="email-input">
-                    <button routerLink="/register" class="btn-start">Sign Up</button>
-                </div>
+                
+                <form class="email-form" (ngSubmit)="onSubmit(emailForm)" #emailForm="ngForm">
+                    <div class="input-wrapper">
+                        <input 
+                            type="email" 
+                            name="email" 
+                            [(ngModel)]="email" 
+                            #emailInput="ngModel"
+                            placeholder="Email Address" 
+                            class="email-input"
+                            required
+                            email>
+                        
+                        @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+                            <div class="error-msg">Please enter a valid email address.</div>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn-start" [disabled]="!emailForm.valid">
+                        Sign Up
+                        <img src="assets/icons/chevron_right.svg" alt="sign up" class="btn-icon">
+                    </button>
+                </form>
             </div>
         </div>
     </main>
