@@ -4,6 +4,8 @@ export interface Video {
   description: string;
   thumbnail: string;
   genre?: string;
+  videoUrl: string;
+  duration?: number;
 }
 
 export interface Category {

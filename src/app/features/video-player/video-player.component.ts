@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Video } from '../../shared/interfaces/video.interface';
+import { VideoService } from '../../shared/services/video.service.service';
 
 @Component({
   selector: 'app-video-player',
@@ -8,21 +10,43 @@ import { Router } from '@angular/router';
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss'
 })
-export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
+export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @ViewChild('videoPlayer') videoElement!: ElementRef<HTMLVideoElement>;
-// TODO: typ
+
+  currentVideo: Video | undefined;
   isPlaying = false;
   currentTime = 0;
   duration = 0;
   controlsVisible = true;
-  controlsTimeout: any;
+  controlsTimeout: number | undefined;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private videoService: VideoService
+  ) {}
+  
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      const videoId = Number(params['id']);
+      this.currentVideo = this.videoService.getVideoById(videoId);
+      if (!this.currentVideo) {
+        this.closePlayer();
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
+    if (this.currentVideo && this.videoElement) {
+      this.playVideo();
+    }
+  }
+  playVideo() {
     const video = this.videoElement.nativeElement;
-    
+
+    video.load();
+
     video.play().then(() => {
       this.isPlaying = true;
       this.showControls();
@@ -46,7 +70,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
       clearTimeout(this.controlsTimeout);
     }
 
-    this.controlsTimeout = setTimeout(() => {
+    this.controlsTimeout = window.setTimeout(() => {
       if (this.isPlaying) {
         this.controlsVisible = false;
       }

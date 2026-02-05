@@ -1,9 +1,8 @@
 <div class="player-container" (mousemove)="showControls()" (touchstart)="showControls()">
-    <!-- TODO: mockups -->
     <video 
         #videoPlayer 
         class="video-element" 
-        src="assets/videos/comedy.mp4" 
+        [src]="currentVideo?.videoUrl" 
         (timeupdate)="onTimeUpdate()"
         (ended)="onVideoEnded()"
         (loadedmetadata)="onMetadataLoaded()">
@@ -14,7 +13,7 @@
         <header class="player-header">
             <div class="header-left">
                 <img src="assets/icons/logo_icon_small.svg" alt="Videoflix" class="logo">
-                <span class="video-title">Majestic whales</span>
+                <span class="video-title">{{ currentVideo?.title }}</span>
             </div>
             <button class="btn-icon" (click)="closePlayer()">
                 <img src="assets/icons/close.png" alt="Close">
