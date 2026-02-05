@@ -9,11 +9,9 @@
         <div class="register-card">
             <h1>Sign Up</h1>
             
-            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-                <!-- TODO: error handle-->
-        
+            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">        
                 <!-- email -->
-                <div class="input-container">
+                <div class="input-container" [class.input-error]="emailModel.invalid && emailModel.touched">
                     <img src="assets/icons/mail.png" alt="Email" class="input-icon left">
                     <input 
                         type="email" 
@@ -25,9 +23,16 @@
                         #emailModel="ngModel"
                         class="videoflix-input">
                 </div>
+                <!-- error msg -->
+                @if (emailModel.invalid && emailModel.touched) {
+                    <div class="error-message">
+                        @if (emailModel.errors?.['required']) { <span>Email is required.</span> }
+                        @if (emailModel.errors?.['email']) { <span>Please enter a valid email.</span> }
+                    </div>
+                }
 
                 <!-- password -->
-                <div class="input-container">
+                <div class="input-container" [class.input-error]="passwordModel.invalid && passwordModel.touched">
                     <img src="assets/icons/password.png" alt="Password" class="input-icon left">
                     <input 
                         [type]="passwordVisible ? 'text' : 'password'" 
@@ -44,6 +49,13 @@
                         class="input-icon right clickable"
                         (click)="togglePasswordVisibility()">
                 </div>
+                @if (passwordModel.invalid && passwordModel.touched) {
+                    <div class="error-message">
+                        @if (passwordModel.errors?.['required']) { <span>Password is required.</span> }
+                        @if (passwordModel.errors?.['minlength']) { <span>Password must be at least 6 characters.</span> }
+                    </div>
+                }
+
 
                 <!-- confirm password -->
                 <div class="input-container" [class.input-error]="!passwordsMatch() && confirmPasswordModel.touched">
@@ -56,18 +68,37 @@
                         [(ngModel)]="registerData.confirmPassword"
                         #confirmPasswordModel="ngModel"
                         class="videoflix-input">
+                        <!-- TODO: toggle visibility -->
                     <img 
                         src="assets/icons/visibility.svg" 
                         alt="Toggle" 
                         class="input-icon right clickable"
                         (click)="toggleConfirmPasswordVisibility()">
                 </div>
-                <!-- TODO: checkbox -->
+
+                @if (!passwordsMatch() && confirmPasswordModel.touched) {
+                    <div class="error-message">
+                        <span>Passwords must match.</span>
+                    </div>
+                }
+                
+                <div class="checkbox-container">
+                    <input 
+                        type="checkbox" 
+                        id="privacy" 
+                        name="privacy" 
+                        [(ngModel)]="privacyPolicyAccepted" 
+                        required>
+                    <label for="privacy">
+                        I agree to the <a routerLink="/privacy">Privacy Policy</a>
+                    </label>
+                </div>
+
                 <div class="btn-container">
                     <button 
                         type="submit" 
                         class="btn-submit" 
-                        [disabled]="!registerForm.form.valid || !passwordsMatch()">
+                        [disabled]="!registerForm.form.valid || !passwordsMatch() || !privacyPolicyAccepted">
                         Get Started
                     </button>
                 </div>
