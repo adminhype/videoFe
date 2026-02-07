@@ -11,7 +11,7 @@ import { ResetPasswordComponent } from './features/auth/reset-password/reset-pas
 
 export const routes: Routes = [
     { path: 'landing', component: LandingComponent },
-    { path: 'login', component: LoginComponent },
+    { path: '', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'reset-password', component: ResetPasswordComponent},

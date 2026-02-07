@@ -11,7 +11,7 @@
 
                 <!-- email -->
                 <div class="input-container" [class.input-error]="emailModel.invalid && emailModel.touched">
-                    <img src="assets/icons/mail.png" alt="Email" class="input-icon left">
+                    <img src="assets/icons/mail.png" alt="Email" class="input-icon left" draggable="false">
                     <input 
                         type="email" 
                         name="email" 
@@ -33,7 +33,7 @@
 
                 <!-- password -->
                 <div class="input-container" [class.input-error]="passwordModel.invalid && passwordModel.touched">
-                    <img src="assets/icons/password.png" alt="Password" class="input-icon left">
+                    <img src="assets/icons/password.png" alt="Password" class="input-icon left" draggable="false">
                     <input 
                         [type]="passwordVisible ? 'text' : 'password'" 
                         name="password" 
@@ -47,7 +47,8 @@
                         [src]="passwordIcon"
                         alt="Toggle password visibility"
                         class="input-icon right clickable"
-                        (click)="togglePasswordVisibility()">
+                        (click)="togglePasswordVisibility()"
+                        draggable="false">
 
                 </div>
                 @if (passwordModel.invalid && passwordModel.touched) {
@@ -60,7 +61,7 @@
 
                 <!-- confirm password -->
                 <div class="input-container" [class.input-error]="!passwordsMatch() && confirmPasswordModel.touched">
-                    <img src="assets/icons/password.png" alt="Confirm Password" class="input-icon left">
+                    <img src="assets/icons/password.png" alt="Confirm Password" class="input-icon left" draggable="false">
                     <input 
                         [type]="confirmPasswordVisible ? 'text' : 'password'" 
                         name="confirmPassword" 
@@ -73,7 +74,8 @@
                         [src]="confirmPasswordIcon"
                         alt="Toggle" 
                         class="input-icon right clickable"
-                        (click)="toggleConfirmPasswordVisibility()">
+                        (click)="toggleConfirmPasswordVisibility()"
+                        draggable="false">
                 </div>
 
                 @if (!passwordsMatch() && confirmPasswordModel.touched) {
@@ -86,7 +88,7 @@
                     <input 
                         type="checkbox" 
                         id="privacy" 
-                        name="privacy" 
+                        name="privacy"  
                         [(ngModel)]="privacyPolicyAccepted" 
                         required>
                     <label for="privacy">
