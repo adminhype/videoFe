@@ -1,12 +1,13 @@
 <header>
     <div class="header-container">
         <a routerLink="/" class="logo-link">
-            <!-- TODO: realoadpage -->
             <img src="assets/icons/logo_icon_small.svg" alt="Videoflix" class="logo">
         </a>
 
         <div class="header-actions">
-            <a routerLink="/login" class="btn-login">Log in</a>
+            @if(showLoginButton){
+                <a routerLink="/login" class="btn-login">Log in</a>
+            }
         </div>
     </div>
 </header>
