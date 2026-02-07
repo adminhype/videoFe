@@ -10,14 +10,15 @@ import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 
 export const routes: Routes = [
+    {path: '', redirectTo: 'landing', pathMatch: 'full'},
     { path: 'landing', component: LandingComponent },
-    { path: 'Login', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: '', component: ResetPasswordComponent},
+    { path: 'reset-password', component: ResetPasswordComponent},
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'privacy', component: PrivacyComponent },
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: 'login' }
 ];

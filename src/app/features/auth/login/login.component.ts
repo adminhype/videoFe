@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { LoginData } from '../../../shared/interfaces/auth.interface';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent {
 
 
   private router = inject(Router);
+  private toastService = inject(ToastService);
   constructor() {}
 
   get passwordIcon(): string {
@@ -36,7 +38,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginData.email && this.loginData.password) {
-      console.log('Login attempt:', this.loginData);
+      this.toastService.show('Login successful!', 'success');
       this.router.navigate(['/browse']);
       // TODO: api call later
     }

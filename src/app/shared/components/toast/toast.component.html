@@ -1,0 +1,17 @@
+@if (toastService.toastState(); as toast) {
+    <div class="toast-container" [class]="toast.type">
+        <div class="toast-content">
+            @if (toast.type === 'success') {
+                <img src="assets/icons/check_circle.svg" alt="Success" class="icon">
+            } @else {
+                <img src="assets/icons/error.svg" alt="Error" class="icon">
+            }
+            
+            <span class="message">{{ toast.text }}</span>
+            
+            <button class="btn-close" (click)="toastService.close()">
+                <img src="assets/icons/close.png" alt="Close">
+            </button>
+        </div>
+    </div>
+}
