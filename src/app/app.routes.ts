@@ -11,10 +11,10 @@ import { ResetPasswordComponent } from './features/auth/reset-password/reset-pas
 
 export const routes: Routes = [
     { path: 'landing', component: LandingComponent },
-    { path: '', component: LoginComponent },
+    { path: 'Login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'reset-password', component: ResetPasswordComponent},
+    { path: '', component: ResetPasswordComponent},
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },

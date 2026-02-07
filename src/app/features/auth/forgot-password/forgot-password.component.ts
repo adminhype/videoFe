@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
+import { ForgotPasswordData } from "../../../shared/interfaces/auth.interface";
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,13 +13,15 @@ import { FooterComponent } from "../../../shared/components/footer/footer.compon
 })
 export class ForgotPasswordComponent {
 
-  email: string = '';
+  forgotData: ForgotPasswordData = {
+    email: ''
+  };
 
   constructor() {}
 
   onSubmit() {
-    if (this.email) {
-      console.log('Reset Password E-Mail send to:', this.email);
+    if (this.forgotData.email) {
+      console.log('Reset Password E-Mail send to:', this.forgotData.email);
       // api call 
       // toast message
     }

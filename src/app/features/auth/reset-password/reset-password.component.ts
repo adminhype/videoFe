@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
-
+import { ResetPasswordData } from "../../../shared/interfaces/auth.interface";
 @Component({
   selector: 'app-reset-password',
   imports: [CommonModule, FormsModule, FooterComponent, HeaderComponent],
@@ -12,8 +12,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 })
 export class ResetPasswordComponent {
 
-  // TODO: typ
-  resetData = {
+  resetData: ResetPasswordData = {
     password: '',
     confirmPassword: ''
   };
@@ -22,7 +21,19 @@ export class ResetPasswordComponent {
   confirmPasswordVisible = false;
 
   constructor() {}
-  // TODO: show pw
+
+  get passwordIcon(): string{
+    return this.passwordVisible
+    ? 'assets/icons/visibility_off.svg'
+    : 'assets/icons/visibility.svg';
+  }
+
+  get confirmPasswordIcon(): string {
+    return this.confirmPasswordVisible
+    ? 'assets/icons/visibility_off.svg'
+    : 'assets/icons/visibility.svg';
+  }
+
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
   }
