@@ -2,14 +2,13 @@
     <img src="assets/images/sign_up_bg.jpg" alt="Background" class="bg-image">
     <div class="bg-overlay"></div>
 </div>
-<app-header></app-header>
 <div class="register-wrapper">
-
+<app-header></app-header>
     <main class="content-center">
         <div class="register-card">
             <h1>Sign Up</h1>
-            
-            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">        
+            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">    
+
                 <!-- email -->
                 <div class="input-container" [class.input-error]="emailModel.invalid && emailModel.touched">
                     <img src="assets/icons/mail.png" alt="Email" class="input-icon left">
@@ -23,6 +22,7 @@
                         #emailModel="ngModel"
                         class="videoflix-input">
                 </div>
+
                 <!-- error msg -->
                 @if (emailModel.invalid && emailModel.touched) {
                     <div class="error-message">
@@ -44,10 +44,11 @@
                         #passwordModel="ngModel"
                         class="videoflix-input">
                     <img 
-                        src="assets/icons/visibility.svg" 
-                        alt="Toggle" 
+                        [src]="passwordIcon"
+                        alt="Toggle password visibility"
                         class="input-icon right clickable"
                         (click)="togglePasswordVisibility()">
+
                 </div>
                 @if (passwordModel.invalid && passwordModel.touched) {
                     <div class="error-message">
@@ -68,9 +69,8 @@
                         [(ngModel)]="registerData.confirmPassword"
                         #confirmPasswordModel="ngModel"
                         class="videoflix-input">
-                        <!-- TODO: toggle visibility -->
                     <img 
-                        src="assets/icons/visibility.svg" 
+                        [src]="confirmPasswordIcon"
                         alt="Toggle" 
                         class="input-icon right clickable"
                         (click)="toggleConfirmPasswordVisibility()">

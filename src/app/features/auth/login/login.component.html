@@ -4,47 +4,60 @@
 </div>
 
 <div class="login-wrapper">
-    <!-- TODO: fix header/footer spacing -->
-    <header>
-        <a routerLink="/" class="logo-link">
-            <img src="assets/icons/logo_icon_small.svg" alt="Videoflix" class="logo">
-        </a>
-    </header>
-
+    <app-header></app-header>
     <main class="content-center">
         <div class="login-card">
             <h1>Log in</h1>
-            
             <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-                
-                <div class="input-container">
+
+                <!-- email -->
+                <div class="input-container" [class.input-error]="emailModel.invalid && emailModel.touched">
                     <img src="assets/icons/mail.png" alt="Email" class="input-icon left">
                     <input 
                         type="email" 
                         name="email" 
                         placeholder="Email Address" 
-                        required 
+                        required
+                        email
                         [(ngModel)]="loginData.email"
+                        #emailModel="ngModel"
                         class="videoflix-input">
                 </div>
 
-                <div class="input-container">
+                <!-- error msg -->
+                @if (emailModel.invalid && emailModel.touched) {
+                    <div class="error-message">
+                        @if (emailModel.errors?.['required']) { <span>Email is required.</span> }
+                        @if (emailModel.errors?.['email']) { <span>Please enter a valid email.</span> }
+                    </div>
+                }
+
+                <!-- password -->
+                <div class="input-container" [class.input-error]="passwordModel.invalid && passwordModel.touched">
                     <img src="assets/icons/password.png" alt="Password" class="input-icon left">
-                    
                     <input 
-                        [type]="showPassword ? 'text' : 'password'" 
+                        [type]="passwordVisible ? 'text' : 'password'" 
                         name="password" 
                         placeholder="Password" 
-                        required 
+                        required
+                        minlength="6"
                         [(ngModel)]="loginData.password"
+                        #passwordModel="ngModel"
                         class="videoflix-input">
-                    <!-- TODO: visibility toggle -->
                     <img 
-                        src="assets/icons/visibility.svg" 
-                        alt="Toggle Password" 
+                        [src]="passwordIcon"
+                        alt="Toggle password visibility" 
                         class="input-icon right clickable"
                         (click)="togglePasswordVisibility()">
                 </div>
+
+                <!-- error msg  -->
+                @if (passwordModel.invalid && passwordModel.touched) {
+                    <div class="error-message">
+                        @if (passwordModel.errors?.['required']) { <span>Password is required.</span> }
+                        @if (passwordModel.errors?.['minlength']) { <span>Password must be at least 6 characters.</span> }
+                    </div>
+                }
 
                 <div class="btn-container">
                     <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid">

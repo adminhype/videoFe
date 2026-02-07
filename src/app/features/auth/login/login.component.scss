@@ -27,14 +27,6 @@
     padding: 1.5rem;
 }
 
-.header {
-    width: 100%;
-    margin-bottom: 2rem;
-
-    .logo {
-        height: 40px;
-    }
-}
 
 .content-center {
     flex: 1;
@@ -45,11 +37,11 @@
 }
 
 .login-card {
-    background: #1A1A20;
+    background: var(--bg-overlay);
     border-radius: var(--border-radius-card);
     padding: 2.5rem 2rem;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
 
     h1 {
         text-align: center;
@@ -64,13 +56,17 @@
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
-    background: #121212;
     border: 1px solid var(--primary-color);
     border-radius: var(--border-radius);
     padding: 0.75rem;
+    backdrop-filter: var(--blur);
 
     &:focus-within {
         box-shadow: 0 0 0 1px var(--primary-color);
+    }
+
+    &.input-error {
+        border-color: var(--error-color);
     }
 
     .input-icon {
@@ -105,9 +101,19 @@
         outline: none;
 
         &::placeholder {
-            color: #b3b3b3;
+            color: var(--text-gray);
         }
     }
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
 }
 
 .btn-container {
@@ -118,7 +124,7 @@
 }
 
 .btn-login {
-    background-color: var(--bg-blue);
+    background: var(--bg-blue);
     color: var(--text-white);
     border: none;
     border-radius: var(--border-radius);
@@ -128,12 +134,14 @@
     cursor: pointer;
 
     &:hover {
-        background-color: var(--primary-hover);
+        background: var(--primary-hover);
     }
 
     &:disabled {
-        opacity: 0.5;
+        background: var(--disabled-bg);
+        color: var(--disabled-text);
         cursor: not-allowed;
+        opacity: 0.5;
     }
 }
 
@@ -150,7 +158,7 @@
     }
 
     .signup-text {
-        color: #b3b3b3;
+        color: var(--text-gray);
         font-size: 0.9rem;
     }
 

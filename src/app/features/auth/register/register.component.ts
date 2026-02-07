@@ -4,7 +4,7 @@ import { RouterLink, ActivatedRoute} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
-import { RegisterData } from "../../../shared/interfaces/register.interface";
+import { RegisterData} from "../../../shared/interfaces/auth.interface";
 
 @Component({
   selector: 'app-register',
@@ -33,6 +33,18 @@ export class RegisterComponent implements OnInit {
         this.registerData.email = emailParam!;
       }
     });
+  }
+
+  get passwordIcon(): string{
+    return this.passwordVisible
+    ? 'assets/icons/visibility_off.svg'
+    : 'assets/icons/visibility.svg';
+  }
+
+  get confirmPasswordIcon(): string {
+    return this.confirmPasswordVisible
+    ? 'assets/icons/visibility_off.svg'
+    : 'assets/icons/visibility.svg';
   }
 
   togglePasswordVisibility() {

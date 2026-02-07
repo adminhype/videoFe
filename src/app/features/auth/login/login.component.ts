@@ -2,29 +2,36 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
+import { LoginData } from '../../../shared/interfaces/auth.interface';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, RouterLink, FormsModule, FooterComponent],
+  imports: [CommonModule, RouterLink, FormsModule, FooterComponent, HeaderComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
-  // typ?
-  
-  loginData = {
+export class LoginComponent {  
+  loginData: LoginData = {
     email: '',
     password: ''
   };
 
-  showPassword = false;
+  passwordVisible = false;
+
 
   private router = inject(Router);
   constructor() {}
 
+  get passwordIcon(): string {
+    return this.passwordVisible
+    ? 'assets/icons/visibility_off.svg'
+    : 'assets/icons/visibility.svg';
+  }
+
   togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+    this.passwordVisible = !this.passwordVisible;
   }
 
   onSubmit() {
