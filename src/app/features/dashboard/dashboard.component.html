@@ -53,7 +53,15 @@
         @if (heroVideo) {
         <section class="hero-section">
             <div class="hero-bg">
-                <img [src]="heroVideo.thumbnail" [alt]="heroVideo.title" class="hero-img">
+                <video
+                    [src]="heroVideo.videoUrl"
+                    [poster]="heroVideo.thumbnail"
+                    autoplay
+                    [muted]="true"
+                    loop
+                    [playsInline]="true"
+                    class="hero-video">
+                </video>
                 <div class="hero-overlay"></div>
             </div>
             
