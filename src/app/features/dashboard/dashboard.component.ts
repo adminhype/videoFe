@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { Video, Category } from '../../shared/interfaces/video.interface';
 import { VideoService } from '../../shared/services/video.service.service';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +18,11 @@ export class DashboardComponent implements OnInit {
   heroVideo: Video | null = null;
   categories: Category[] = [];
 
-  constructor(private router: Router, private videoService: VideoService) {}
-
+    private router = inject(Router);
+    private videoService = inject(VideoService);
+    private toastService = inject(ToastService);
+    constructor() {}
+    
   ngOnInit(): void {
     this.categories = this.videoService.getCategories();
     if (this.categories.length > 0 && this.categories[0].videos.length > 0) {
@@ -36,7 +40,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onLogout() {
-    console.log('Logging out...');
+    this.toastService.show('Logged out successfully', 'success');
     this.router.navigate(['/login']);
   }
 }

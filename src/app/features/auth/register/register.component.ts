@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute} from '@angular/router';
+import { RouterLink, ActivatedRoute, Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { RegisterData} from "../../../shared/interfaces/auth.interface";
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,10 @@ export class RegisterComponent implements OnInit {
   passwordVisible = false;
   confirmPasswordVisible = false;
 
-  constructor(private route: ActivatedRoute) {}
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+  constructor() {}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -61,8 +65,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.registerData.email && this.passwordsMatch()) {
+    if (this.registerData.email && this.passwordsMatch() && this.privacyPolicyAccepted) {
       console.log('Register attempt:', this.registerData);
+      this.toastService.show('Registration successful', 'success');
+      this.router.navigate(['/login']);
       // api call later
     }
   }

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { ResetPasswordData } from "../../../shared/interfaces/auth.interface";
+import { ToastService } from '../../../shared/services/toast.service';
+
 @Component({
   selector: 'app-reset-password',
   imports: [CommonModule, FormsModule, FooterComponent, HeaderComponent],
@@ -20,6 +23,8 @@ export class ResetPasswordComponent {
   passwordVisible = false;
   confirmPasswordVisible = false;
 
+  private router = inject(Router);
+  private toastService = inject(ToastService);
   constructor() {}
 
   get passwordIcon(): string{
@@ -50,6 +55,8 @@ export class ResetPasswordComponent {
   onSubmit() {
     if (this.resetData.password && this.passwordsMatch()) {
       console.log('Reset Password attempt:', this.resetData);
+      this.toastService.show('Password reset successfully', 'success');
+      this.router.navigate(['/login']);
       // api call later
     }
   }
