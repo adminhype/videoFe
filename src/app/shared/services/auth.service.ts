@@ -7,7 +7,12 @@ import {
   RegisterData,
   RegisterResponse,
   LoginResponse,
-  LogoutResponse
+  LogoutResponse,
+  ActivationResponse,
+  ForgotPasswordData,
+  ResetPasswordData,
+  PasswordResetConfirmResponse,
+  PasswordResetRequestResponse
 } from '../interfaces/auth.interface';
 
 @Injectable({
@@ -34,5 +39,21 @@ export class AuthService {
 
   logout(): Observable<LogoutResponse> {
     return this.http.post<LogoutResponse>(`${this.apiUrl}/logout/`, {});
+  }
+
+  activateAccount(uid: string, token: string): Observable<ActivationResponse> {
+    return this.http.get<ActivationResponse>(`${this.apiUrl}/activate/${uid}/${token }/`);
+  }
+
+  requestPasswordReset(data: ForgotPasswordData): Observable<PasswordResetRequestResponse>{
+    return this.http.post<PasswordResetRequestResponse>(`${this.apiUrl}/password_reset/`, data);
+  }
+
+  confirmPasswordReset(uid: string, token: string, data: ResetPasswordData): Observable<PasswordResetConfirmResponse>{
+    const payload = {
+      new_password: data.password,
+      confirm_password: data.confirmPassword
+    };
+    return this.http.post<PasswordResetConfirmResponse>(`${this.apiUrl}/password_confirm/${uid}/${token}/`, payload);
   }
 }

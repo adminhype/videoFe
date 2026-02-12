@@ -8,14 +8,16 @@ import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { PrivacyComponent } from './features/legal/privacy/privacy.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
+import { ActivateAccountComponent } from './features/auth/activate-account/activate-account.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'landing', pathMatch: 'full'},
     { path: 'landing', component: LandingComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'activate/:uid/:token', component: ActivateAccountComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'reset-password', component: ResetPasswordComponent},
+    { path: 'reset-password/:uid/:token', component: ResetPasswordComponent},
     { path: 'browse', component: DashboardComponent },
     { path: 'watch/:id', component: VideoPlayerComponent },
     { path: 'imprint', component: ImprintComponent },

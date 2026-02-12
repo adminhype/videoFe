@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { ResetPasswordData } from "../../../shared/interfaces/auth.interface";
 import { ToastService } from '../../../shared/services/toast.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,7 +14,10 @@ import { ToastService } from '../../../shared/services/toast.service';
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit{
+
+  private uid: string = '';
+  private token: string = '';
 
   resetData: ResetPasswordData = {
     password: '',
@@ -24,8 +28,20 @@ export class ResetPasswordComponent {
   confirmPasswordVisible = false;
 
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private toastService = inject(ToastService);
+  private authService = inject(AuthService);
   constructor() {}
+
+
+  ngOnInit(): void {
+    this.uid = this.route.snapshot.paramMap.get('uid') || '';
+    this.token = this.route.snapshot.paramMap.get('token') || '';
+    if(!this.uid || !this.token){
+      this.toastService.show('invalid password reset link.', 'error');
+      this.router.navigate(['/login']);
+    }
+}
 
   get passwordIcon(): string{
     return this.passwordVisible
@@ -54,10 +70,16 @@ export class ResetPasswordComponent {
 
   onSubmit() {
     if (this.resetData.password && this.passwordsMatch()) {
-      console.log('Reset Password attempt:', this.resetData);
-      this.toastService.show('Password reset successfully', 'success');
-      this.router.navigate(['/login']);
-      // api call later
+      this.authService.confirmPasswordReset(this.uid, this.token, this.resetData).subscribe({
+        next: () => {
+          this.toastService.show('Password reset successfully.', 'success');
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error('Reset error', error);
+          this.toastService.show('Failed to reset password', 'error');
+        }
+      });
     }
   }
 }

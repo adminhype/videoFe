@@ -23,6 +23,8 @@ export interface User {
     email: string;
 }
 
+
+
 export interface RegisterResponse {
     user: User;
     token: string;
@@ -34,5 +36,17 @@ export interface LoginResponse {
 }
 
 export interface LogoutResponse {
+    detail: string;
+}
+
+export interface ActivationResponse {
+    message: string;
+}
+
+export interface PasswordResetRequestResponse {
+    detail: string;
+}
+
+export interface PasswordResetConfirmResponse {
     detail: string;
 }

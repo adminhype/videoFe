@@ -1,7 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router} from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { RegisterData} from "../../../shared/interfaces/auth.interface";
@@ -15,6 +15,8 @@ import { AuthService } from '../../../shared/services/auth.service';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
+
+  @ViewChild('registerForm') registerForm!: NgForm;
 
   registerData: RegisterData = {
     email: '',
@@ -71,9 +73,10 @@ export class RegisterComponent implements OnInit {
       this.authService.register(this.registerData).subscribe({
         next: (response) => {
           console.log('Register attempt:', response);
-          this.toastService.show('Registration successful, check your email', 'success');
-          this.router.navigate(['/login']);
-        },
+          this.toastService.show('Registration successful! Please check your email to activate your account', 'success', 3000);
+          this.registerForm.resetForm();
+        this.privacyPolicyAccepted = false;
+      },
         error: (error) => {
           console.error('Registration error:', error);
           this.toastService.show('Registration failed', 'error');

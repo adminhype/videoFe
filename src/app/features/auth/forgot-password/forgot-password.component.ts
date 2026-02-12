@@ -6,6 +6,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { ForgotPasswordData } from "../../../shared/interfaces/auth.interface";
 import { ToastService } from '../../../shared/services/toast.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,14 +22,21 @@ export class ForgotPasswordComponent {
   
   private router = inject(Router);
   private toastService = inject(ToastService);
+  private authService = inject(AuthService);
   constructor() {}
 
   onSubmit() {
     if (this.forgotData.email) {
-      console.log('Reset Password E-Mail send to:', this.forgotData.email);
-      this.toastService.show('Reset password email sent successfully', 'success');
-      this.router.navigate(['/login']);
-      // api call 
+      this.authService.requestPasswordReset(this.forgotData).subscribe({
+        next: () => {
+          this.toastService.show('Reset password email sent successfully', 'success');
+          this.forgotData.email = '';
+        },
+        error: (error) => {
+          console.error('Forgot pw error', error);
+          this.toastService.show('Something went wrong. Please try again.', 'error');
+        }
+      });
     }
   }
 }
