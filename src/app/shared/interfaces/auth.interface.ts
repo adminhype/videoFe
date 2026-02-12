@@ -17,3 +17,22 @@ export interface ResetPasswordData {
 export interface ForgotPasswordData {
     email: string;
 }
+
+export interface User {
+    id: number;
+    email: string;
+}
+
+export interface RegisterResponse {
+    user: User;
+    token: string;
+}
+
+export interface LoginResponse {
+    user?: User;
+    token?: string;
+}
+
+export interface LogoutResponse {
+    detail: string;
+}

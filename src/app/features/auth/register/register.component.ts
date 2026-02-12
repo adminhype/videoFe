@@ -6,6 +6,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { RegisterData} from "../../../shared/interfaces/auth.interface";
 import { ToastService } from '../../../shared/services/toast.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private toastService = inject(ToastService);
-  constructor() {}
+  private authService = inject(AuthService);
+  constructor() { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -66,10 +68,17 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerData.email && this.passwordsMatch() && this.privacyPolicyAccepted) {
-      console.log('Register attempt:', this.registerData);
-      this.toastService.show('Registration successful', 'success');
-      this.router.navigate(['/login']);
-      // api call later
+      this.authService.register(this.registerData).subscribe({
+        next: (response) => {
+          console.log('Register attempt:', response);
+          this.toastService.show('Registration successful, check your email', 'success');
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          console.error('Registration error:', error);
+          this.toastService.show('Registration failed', 'error');
+        }
+      });
     }
   }
 }

@@ -6,6 +6,7 @@ import { HeaderComponent } from "../../../shared/components/header/header.compon
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
 import { LoginData } from '../../../shared/interfaces/auth.interface';
 import { ToastService } from '../../../shared/services/toast.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent {
 
   private router = inject(Router);
   private toastService = inject(ToastService);
-  constructor() {}
+  private authService = inject(AuthService);
+  constructor() { }
 
   get passwordIcon(): string {
     return this.passwordVisible
@@ -38,9 +40,16 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginData.email && this.loginData.password) {
-      this.toastService.show('Login successful!', 'success');
-      this.router.navigate(['/browse']);
-      // TODO: api call later
+      this.authService.login(this.loginData).subscribe({
+        next: (response) => {
+          this.toastService.show('Login successful!', 'success');
+          this.router.navigate(['/browse']);
+        },
+        error: (error) => {
+          console.error('Login error:', error);
+          this.toastService.show('Login failed', 'error');
+        }
+      });
     }
   }
 }
