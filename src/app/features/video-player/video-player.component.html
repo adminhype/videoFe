@@ -39,11 +39,14 @@
 
             <div class="speed-area">
                 <div class="res-menu" *ngIf="showResMenu">
-                    <button (click)="changeResolution('1080p')" [class.active]="currentRes === '1080p'">1080p</button>
-                    <button (click)="changeResolution('720p')" [class.active]="currentRes === '720p'">720p</button>
+                    @if(currentVideo?.has1080p){
+                        <button (click)="changeResolution('1080p')" [class.active]="currentRes === '1080p'">1080p</button>
+                    }
+                    @if(currentVideo?.has720p){
+                        <button (click)="changeResolution('720p')" [class.active]="currentRes === '720p'">720p</button>
+                    }
                     <button (click)="changeResolution('480p')" [class.active]="currentRes === '480p'">480p</button>
                 </div>
-                <!-- //TODO: fix img -->
                 <button class="btn-speed" (click)="toggleResMenu()">
                     <img src="assets/icons/speed.png" alt="Quality"> 
                     <span>{{ currentRes }}</span>

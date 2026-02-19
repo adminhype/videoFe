@@ -39,7 +39,9 @@ export class VideoService {
       description: v.description,
       thumbnail: v.thumbnail_url,
       genre: v.category,
-      videoUrl: `${this.apiUrl}/video/${v.id}/`
+      videoUrl: `${this.apiUrl}/video/${v.id}/`,
+      has720p: v.has_720p,
+      has1080p: v.has_1080p
     };
   }
 
