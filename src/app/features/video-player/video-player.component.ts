@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Video } from '../../shared/interfaces/video.interface';
-import { VideoService } from '../../shared/services/video.service.service';
+import { VideoService } from '../../shared/services/video.service';
+import Hls from 'hls.js';
 
 @Component({
   selector: 'app-video-player',
@@ -11,138 +12,140 @@ import { VideoService } from '../../shared/services/video.service.service';
   styleUrl: './video-player.component.scss'
 })
 export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
-  
   @ViewChild('videoPlayer') videoElement!: ElementRef<HTMLVideoElement>;
+  
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private videoService = inject(VideoService);
 
   currentVideo: Video | undefined;
+  hls: Hls | null = null;
+  
   isPlaying = false;
+  controlsVisible = true;
   currentTime = 0;
   duration = 0;
-  controlsVisible = true;
-  controlsTimeout: number | undefined;
+  currentRes = '480p';
+  showResMenu = false;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private videoService: VideoService
-  ) {}
-  
+  private controlsTimeout: number | undefined;
+
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const videoId = Number(params['id']);
-      this.currentVideo = this.videoService.getVideoById(videoId);
-      if (!this.currentVideo) {
-        this.closePlayer();
-      }
-    });
+    this.route.params.subscribe(params => this.loadVideoContent(Number(params['id'])));
   }
 
   ngAfterViewInit(): void {
-    if (this.currentVideo && this.videoElement) {
-      this.playVideo();
-    }
-  }
-  playVideo() {
-    const video = this.videoElement.nativeElement;
-
-    video.load();
-
-    video.play().then(() => {
-      this.isPlaying = true;
-      this.showControls();
-    }).catch(error => {
-      console.warn('Autoplay prevented:', error);
-      this.isPlaying = false;
-      this.controlsVisible = true;
-    });
+    if (this.currentVideo) this.initPlayer();
   }
 
   ngOnDestroy(): void {
-    if (this.controlsTimeout) {
-      clearTimeout(this.controlsTimeout);
+    if (this.hls) this.hls.destroy();
+    clearTimeout(this.controlsTimeout);
+  }
+
+  loadVideoContent(id: number) {
+    this.videoService.getVideoById(id).subscribe({
+      next: (video) => {
+        this.currentVideo = video;
+        if (this.currentVideo && this.videoElement) this.initPlayer();
+      },
+      error: () => this.closePlayer()
+    });
+  }
+
+  initPlayer() {
+    if (Hls.isSupported() && this.currentVideo) {
+      this.setupHls(this.currentVideo.videoUrl + this.currentRes + '/index.m3u8');
+    } else if (this.videoElement.nativeElement.canPlayType('application/vnd.apple.mpegurl')) {
+      this.videoElement.nativeElement.src = this.currentVideo!.videoUrl + '480p/index.m3u8';
     }
   }
 
-  showControls() {
-    this.controlsVisible = true;
-    
-    if (this.controlsTimeout) {
-      clearTimeout(this.controlsTimeout);
-    }
+  setupHls(url: string) {
+    if (this.hls) this.hls.destroy();
+    this.hls = new Hls({
+      xhrSetup: (xhr, url) => { xhr.withCredentials = true; }
+    });
+    this.hls.loadSource(url);
+    this.hls.attachMedia(this.videoElement.nativeElement);
+    this.hls.on(Hls.Events.MANIFEST_PARSED, () => this.playVideo());
+  }
 
-    this.controlsTimeout = window.setTimeout(() => {
-      if (this.isPlaying) {
-        this.controlsVisible = false;
-      }
-    }, 777);
+  changeResolution(res: string) {
+    this.currentRes = res;
+    this.showResMenu = false;
+    const time = this.videoElement.nativeElement.currentTime;
+    const wasPlaying = !this.videoElement.nativeElement.paused;
+
+    if (this.currentVideo) {
+      this.setupHls(this.currentVideo.videoUrl + res + '/index.m3u8');
+      this.videoElement.nativeElement.currentTime = time;
+      if(wasPlaying) this.playVideo();
+    }
+  }
+
+  playVideo() {
+    this.videoElement.nativeElement.play()
+      .then(() => {
+        this.isPlaying = true;
+        this.showControls();
+      })
+      .catch(err => console.warn("Autoplay prevented", err));
   }
 
   togglePlay() {
     const video = this.videoElement.nativeElement;
-    
-    if (video.paused) {
-      video.play();
-      this.isPlaying = true;
-      this.showControls();
-    } else {
-      video.pause();
-      this.isPlaying = false;
-      this.controlsVisible = true;
-    }
-  }
-
-  skip(seconds: number) {
-    const video = this.videoElement.nativeElement;
-    video.currentTime += seconds;
+    video.paused ? this.playVideo() : video.pause();
+    this.isPlaying = !video.paused;
     this.showControls();
   }
 
-  onTimeUpdate() {
-    const video = this.videoElement.nativeElement;
-    this.currentTime = video.currentTime;
-  }
-
-  onMetadataLoaded() {
-    const video = this.videoElement.nativeElement;
-    this.duration = video.duration;
-  }
-
-  onVideoEnded() {
-    this.isPlaying = false;
+  showControls() {
     this.controlsVisible = true;
-  }
-
-  onSeek(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    const video = this.videoElement.nativeElement;
-    
-    video.currentTime = value;
-    this.currentTime = value;
-  }
-
-  getProgressPercentage(): number {
-    if (this.duration === 0) return 0;
-    return (this.currentTime / this.duration) * 100;
-  }
-
-  formatTime(time: number): string {
-    if (!time) return '0:00';
-    
-    const seconds = Math.floor(time % 60);
-    const minutes = Math.floor((time / 60) % 60);
-    const hours = Math.floor(time / 3600);
-
-    const s = seconds < 10 ? `0${seconds}` : `${seconds}`;
-    const m = minutes < 10 ? `0${minutes}` : `${minutes}`;
-
-    if (hours > 0) {
-      return `${hours}:${m}:${s}`;
-    }
-    return `${minutes}:${s}`;
+    clearTimeout(this.controlsTimeout);
+    this.controlsTimeout = window.setTimeout(() => {
+      if (this.isPlaying) this.controlsVisible = false;
+    }, 19022026); //TODO: test
   }
 
   closePlayer() {
     this.router.navigate(['/browse']);
+  }
+  
+  onTimeUpdate() {
+    this.currentTime = this.videoElement.nativeElement.currentTime;
+  }
+
+  onMetadataLoaded() {
+    this.duration = this.videoElement.nativeElement.duration;
+  }
+
+  onVideoEnded() {
+    this.isPlaying = false;
+    this.showControls();
+  }
+  
+  onSeek(event: Event) {
+    const val = Number((event.target as HTMLInputElement).value);
+    this.videoElement.nativeElement.currentTime = val;
+  }
+  
+  skip(val: number) {
+      this.videoElement.nativeElement.currentTime += val;
+      this.showControls();
+  }
+
+  toggleResMenu() {
+    this.showResMenu = !this.showResMenu;
+  }
+
+  formatTime(time: number): string {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
+  getProgressPercentage() {
+    return (this.currentTime / this.duration) * 100 || 0;
   }
 }

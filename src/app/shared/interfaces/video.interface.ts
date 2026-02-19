@@ -3,7 +3,7 @@ export interface Video {
   title: string;
   description: string;
   thumbnail: string;
-  genre?: string;
+  genre: string;
   videoUrl: string;
   duration?: number;
 }
@@ -11,4 +11,13 @@ export interface Video {
 export interface Category {
   name: string;
   videos: Video[];
+}
+
+export interface VideoBackendResponse {
+  id: number;
+  created_at: string;
+  title: string;
+  description: string;
+  thumbnail_url: string;
+  category: string;
 }

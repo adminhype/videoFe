@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { Video, Category } from '../../shared/interfaces/video.interface';
-import { VideoService } from '../../shared/services/video.service.service';
+import { VideoService } from '../../shared/services/video.service';
 import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
@@ -18,16 +18,23 @@ export class DashboardComponent implements OnInit {
   heroVideo: Video | null = null;
   categories: Category[] = [];
 
-    private router = inject(Router);
-    private videoService = inject(VideoService);
-    private toastService = inject(ToastService);
-    constructor() {}
+  private router = inject(Router);
+  private videoService = inject(VideoService);
+  private toastService = inject(ToastService);
     
   ngOnInit(): void {
-    this.categories = this.videoService.getCategories();
-    if (this.categories.length > 0 && this.categories[0].videos.length > 0) {
-      this.heroVideo = this.categories[0].videos[0];
-    }
+    this.videoService.getCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+        if (this.categories.length > 0 && this.categories[0].videos.length > 0) {
+          this.heroVideo = this.categories[0].videos[0];
+      }
+    },
+      error: (error) => {
+        console.error('Error fetching videos', error)
+        this.toastService.show('videos not loading', 'error');
+      }
+    });
   }
 
   openDetail(video: Video) {
@@ -40,6 +47,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onLogout() {
+    //service later for cookies
     this.toastService.show('Logged out successfully', 'success');
     this.router.navigate(['/login']);
   }

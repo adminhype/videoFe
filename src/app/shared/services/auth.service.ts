@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   activateAccount(uid: string, token: string): Observable<ActivationResponse> {
-    return this.http.get<ActivationResponse>(`${this.apiUrl}/activate/${uid}/${token }/`);
+    return this.http.get<ActivationResponse>(`${this.apiUrl}/activate/${uid}/${token}/`);
   }
 
   requestPasswordReset(data: ForgotPasswordData): Observable<PasswordResetRequestResponse>{

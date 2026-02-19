@@ -216,3 +216,34 @@
         gap: 5rem;
     }
 }
+
+.res-menu {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: var(--bg-dark);
+    border-radius: var(--border-radius-card);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 4rem;
+
+    button {
+        background: transparent;
+        border: none;
+        border-inline-start: 1px solid var(--primary-color);
+        color: var(--text-white);
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        &.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+    }
+}

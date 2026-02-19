@@ -1,15 +1,12 @@
 <div class="player-container" (mousemove)="showControls()" (touchstart)="showControls()">
-    <video 
-        #videoPlayer 
-        class="video-element" 
-        [src]="currentVideo?.videoUrl" 
-        (timeupdate)="onTimeUpdate()"
+    <video #videoPlayer class="video-element" 
+        (timeupdate)="onTimeUpdate()" 
         (ended)="onVideoEnded()"
-        (loadedmetadata)="onMetadataLoaded()">
+        (loadedmetadata)="onMetadataLoaded()"
+        (click)="togglePlay()">
     </video>
 
     <div class="controls-overlay" [class.hidden]="!controlsVisible">
-        
         <header class="player-header">
             <div class="header-left">
                 <img src="assets/icons/logo_icon_small.svg" alt="Videoflix" class="logo">
@@ -24,39 +21,32 @@
             <button class="btn-secondary" (click)="skip(-10)">
                 <img src="assets/icons/replay_10.png" alt="-10s">
             </button>
-
             <button class="btn-primary-play" (click)="togglePlay()">
-                @if (isPlaying) {
-                    <img src="assets/icons/pause.png" alt="Pause">
-                } @else {
-                    <img src="assets/icons/play_arrow.png" alt="Play" class="play-icon">
-                }
+                <img [src]="isPlaying ? 'assets/icons/pause.png' : 'assets/icons/play_arrow.png'" alt="Toggle Play">
             </button>
-
             <button class="btn-secondary" (click)="skip(10)">
                 <img src="assets/icons/forward_10.png" alt="+10s">
             </button>
         </div>
 
         <div class="bottom-controls">
-            
             <div class="progress-area">
-                <input 
-                    type="range" 
-                    min="0" 
-                    [max]="duration" 
-                    [value]="currentTime" 
-                    (input)="onSeek($event)"
-                    class="progress-bar"
+                <input type="range" min="0" [max]="duration" [value]="currentTime" 
+                    (input)="onSeek($event)" class="progress-bar"
                     [style.background-size]="getProgressPercentage() + '% 100%'">
-                
                 <span class="time-display">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
             </div>
 
             <div class="speed-area">
-                <button class="btn-speed">
-                    <img src="assets/icons/speed.png" alt="Speed">
-                    <span>Speed</span>
+                <div class="res-menu" *ngIf="showResMenu">
+                    <button (click)="changeResolution('1080p')" [class.active]="currentRes === '1080p'">1080p</button>
+                    <button (click)="changeResolution('720p')" [class.active]="currentRes === '720p'">720p</button>
+                    <button (click)="changeResolution('480p')" [class.active]="currentRes === '480p'">480p</button>
+                </div>
+                <!-- //TODO: fix img -->
+                <button class="btn-speed" (click)="toggleResMenu()">
+                    <img src="assets/icons/speed.png" alt="Quality"> 
+                    <span>{{ currentRes }}</span>
                 </button>
             </div>
         </div>
