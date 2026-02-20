@@ -12,16 +12,13 @@
     max-width: 450px;
     border-left: 5px solid transparent;
     animation: slideUp 0.5s ease-out forwards;
-    backdrop-filter: var(--blur);
 
     &.success {
         border-left-color: var(--success-color);
-        box-shadow: -2px 0 10px rgba(46, 204, 113, 0.1);
     }
 
     &.error {
         border-left-color: var(--error-color);
-        box-shadow: -2px 0 10px rgba(255, 94, 0, 0.1);
     }
 }
 

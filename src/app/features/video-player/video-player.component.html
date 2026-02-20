@@ -1,5 +1,5 @@
-<div class="player-container" (mousemove)="showControls()" (touchstart)="showControls()">
-    <video #videoPlayer class="video-element" 
+<div #playerContainer class="player-container" (mousemove)="showControls()" (touchstart)="showControls()">
+    <video #videoPlayer class="video-element"
         (timeupdate)="onTimeUpdate()" 
         (ended)="onVideoEnded()"
         (loadedmetadata)="onMetadataLoaded()"
@@ -13,44 +13,78 @@
                 <span class="video-title">{{ currentVideo?.title }}</span>
             </div>
             <button class="btn-icon" (click)="closePlayer()">
-                <img src="assets/icons/close.png" alt="Close">
+                <img src="assets/icons/close.svg" alt="Close">
             </button>
         </header>
 
         <div class="center-controls">
             <button class="btn-secondary" (click)="skip(-10)">
-                <img src="assets/icons/replay_10.png" alt="-10s">
+                <img src="assets/icons/replay_10.svg" alt="-10s">
             </button>
             <button class="btn-primary-play" (click)="togglePlay()">
-                <img [src]="isPlaying ? 'assets/icons/pause.png' : 'assets/icons/play_arrow.png'" alt="Toggle Play">
+                @if (isPlaying) {
+                    <img src="assets/icons/pause.svg" alt="Stop">
+                } @else {
+                    <img src="assets/icons/play_arrow.svg" alt="Play">
+                }
             </button>
+
             <button class="btn-secondary" (click)="skip(10)">
-                <img src="assets/icons/forward_10.png" alt="+10s">
+                <img src="assets/icons/forward_10.svg" alt="+10s">
             </button>
         </div>
 
         <div class="bottom-controls">
             <div class="progress-area">
-                <input type="range" min="0" [max]="duration" [value]="currentTime" 
+                <input 
+                    type="range"
+                    min="0"
+                    [max]="duration"
+                    [value]="currentTime" 
                     (input)="onSeek($event)" class="progress-bar"
                     [style.background-size]="getProgressPercentage() + '% 100%'">
                 <span class="time-display">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
             </div>
 
-            <div class="speed-area">
-                <div class="res-menu" *ngIf="showResMenu">
-                    @if(currentVideo?.has1080p){
-                        <button (click)="changeResolution('1080p')" [class.active]="currentRes === '1080p'">1080p</button>
-                    }
-                    @if(currentVideo?.has720p){
-                        <button (click)="changeResolution('720p')" [class.active]="currentRes === '720p'">720p</button>
-                    }
-                    <button (click)="changeResolution('480p')" [class.active]="currentRes === '480p'">480p</button>
+            <div class="controls-row">
+                <div class="volume-area">
+                    <button class="btn-icon-small" (click)="toggleMute()">
+                        @if (isMuted){
+                            <img src="assets/icons/volume_off.svg" alt="Unmute">
+                        } @else{
+                            <img src="assets/icons/volume_up.svg" alt="Mute">
+                        }
+                    </button>
+                    <input 
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        [value]="volume" 
+                        (input)="onVolumeChange($event)" class="volume-slider">
                 </div>
-                <button class="btn-speed" (click)="toggleResMenu()">
-                    <img src="assets/icons/speed.png" alt="Quality"> 
-                    <span>{{ currentRes }}</span>
-                </button>
+
+            <div class="right-actions">
+                    <div class="speed-area">
+                        @if (showResMenu){
+                            <div class="res-menu">
+                                @if(currentVideo?.has1080p){ <button (click)="changeResolution('1080p')" [class.active]="currentRes === '1080p'">1080p</button> }
+                                @if(currentVideo?.has720p){ <button (click)="changeResolution('720p')" [class.active]="currentRes === '720p'">720p</button> }
+                                <button (click)="changeResolution('480p')" [class.active]="currentRes === '480p'">480p</button>
+                            </div>
+                        }
+                        <button class="btn-text-icon" (click)="toggleResMenu()">
+                            <img src="assets/icons/settings.svg" alt="Quality"> 
+                            <span>{{ currentRes }}</span>
+                        </button>
+                    </div>
+                    <button class="btn-icon-small" (click)="toggleFullscreen()">
+                        @if (isFullscreen){
+                            <img src="assets/icons/fullscreen_exit.svg" alt="Exit FullScreen">
+                        } @else {
+                            <img src="assets/icons/fullscreen.svg" alt="Fullscreen">
+                        }
+                    </button>
             </div>
         </div>
     </div>

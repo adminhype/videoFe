@@ -13,6 +13,7 @@ import Hls from 'hls.js';
 })
 export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('videoPlayer') videoElement!: ElementRef<HTMLVideoElement>;
+  @ViewChild('playerContainer') container!: ElementRef<HTMLDivElement>;
   
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -25,8 +26,13 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   controlsVisible = true;
   currentTime = 0;
   duration = 0;
+
+  // volume & settings 
+  volume = 1;
+  isMuted = false;
   currentRes = '480p';
   showResMenu = false;
+  isFullscreen = false;
 
   private controlsTimeout: number | undefined;
 
@@ -100,12 +106,39 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showControls();
   }
 
+  toggleMute() {
+    const video = this.videoElement.nativeElement;
+    video.muted = !video.muted;
+    this.isMuted = video.muted;
+    if (this.isMuted) this.volume = 0;
+    else this.volume = video.volume > 0 ? video.volume : 0.5;
+  }
+
+  onVolumeChange(event: Event) {
+    const val = Number((event.target as HTMLInputElement).value);
+    this.videoElement.nativeElement.volume = val;
+    this.volume = val;
+    this.isMuted = val === 0;
+    this.videoElement.nativeElement.muted = this.isMuted;
+  }
+
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      this.container.nativeElement.requestFullscreen();
+      this.isFullscreen = true;
+    } else {
+      document.exitFullscreen();
+      this.isFullscreen = false;
+    }
+  }
+
+
   showControls() {
     this.controlsVisible = true;
     clearTimeout(this.controlsTimeout);
     this.controlsTimeout = window.setTimeout(() => {
       if (this.isPlaying) this.controlsVisible = false;
-    }, 19022026); //TODO: test
+    }, 2000);
   }
 
   closePlayer() {
