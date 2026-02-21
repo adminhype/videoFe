@@ -30,10 +30,6 @@ export class ActivateAccountComponent implements OnInit {
       this.handleError('Invalid activation link.');
     }
   }
-
-  // ngOnInit(): void {
-  //   this.toastService.show('test: account activated', 'success')
-  // }
   
   activate(uid: string, token: string) {
     this.authService.activateAccount(uid, token).subscribe({

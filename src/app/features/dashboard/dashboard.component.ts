@@ -5,6 +5,7 @@ import { FooterComponent } from "../../shared/components/footer/footer.component
 import { Video, Category } from '../../shared/interfaces/video.interface';
 import { VideoService } from '../../shared/services/video.service';
 import { ToastService } from '../../shared/services/toast.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +22,7 @@ export class DashboardComponent implements OnInit {
   private router = inject(Router);
   private videoService = inject(VideoService);
   private toastService = inject(ToastService);
+  private authService = inject(AuthService);
     
   ngOnInit(): void {
     this.videoService.getCategories().subscribe({
@@ -47,8 +49,15 @@ export class DashboardComponent implements OnInit {
   }
 
   onLogout() {
-    //service later for cookies
-    this.toastService.show('Logged out successfully', 'success');
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.toastService.show('Logged out successfully', 'success');    
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('logout error:', err);
+        this.router.navigate(['/login'])
+      }
+    })
   }
 }

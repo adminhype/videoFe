@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
@@ -8,7 +8,8 @@ import { CommonModule, Location } from '@angular/common';
   styleUrl: './privacy.component.scss'
 })
 export class PrivacyComponent {
-  constructor(private location: Location) {}
+  
+  private location = inject(Location);
 
   goBack() {
     this.location.back();

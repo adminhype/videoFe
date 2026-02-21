@@ -57,6 +57,11 @@
             color: var(--text-gray);
             font-weight: 400;
         }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
     }
 }
 
