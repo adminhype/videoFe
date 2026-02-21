@@ -122,12 +122,26 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.videoElement.nativeElement.muted = this.isMuted;
   }
 
+  //idk
   toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      this.container.nativeElement.requestFullscreen();
+    const container = this.container.nativeElement as any;
+    const video = this.videoElement.nativeElement as any;
+
+    if (!document.fullscreenElement && !document.fullscreenElement && !(document as any).webkitFullscreenElement) {
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      } else if (container.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+      }
       this.isFullscreen = true;
     } else {
-      document.exitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      }
       this.isFullscreen = false;
     }
   }

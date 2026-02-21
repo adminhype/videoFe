@@ -3,7 +3,9 @@
         (timeupdate)="onTimeUpdate()" 
         (ended)="onVideoEnded()"
         (loadedmetadata)="onMetadataLoaded()"
-        (click)="togglePlay()">
+        (click)="togglePlay()"
+        [playsInline]="true"
+        webkit-playsinline>
     </video>
 
     <div class="controls-overlay" [class.hidden]="!controlsVisible">
