@@ -6,16 +6,17 @@ import { Video, Category } from '../../shared/interfaces/video.interface';
 import { VideoService } from '../../shared/services/video.service';
 import { ToastService } from '../../shared/services/toast.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { HlsVideoDirective } from '../../shared/directives/hls-video.directive';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink, FooterComponent],
+  imports: [CommonModule, RouterLink, FooterComponent, HlsVideoDirective],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
 
-  selectedMobileVideo: Video | null = null;
+  selectedVideo: Video | null = null;
   heroVideo: Video | null = null;
   categories: Category[] = [];
 
@@ -40,12 +41,11 @@ export class DashboardComponent implements OnInit {
   }
 
   openDetail(video: Video) {
-    this.selectedMobileVideo = video;    
-    this.heroVideo = video;
+    this.selectedVideo = video;
   }
 
   closeDetail() {
-    this.selectedMobileVideo = null;
+    this.selectedVideo = null;
   }
 
   onLogout() {
