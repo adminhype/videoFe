@@ -11,7 +11,6 @@ import { Category, Video, VideoBackendResponse } from '../interfaces/video.inter
 export class VideoService {
   private http = inject(HttpClient);
   private apiUrl = environment.baseUrl;
-  constructor () {}
 
   getCategories(): Observable<Category[]> {
     return this.http.get<VideoBackendResponse[]>(`${this.apiUrl}/video/`)

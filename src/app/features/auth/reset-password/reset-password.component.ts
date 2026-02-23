@@ -31,7 +31,6 @@ export class ResetPasswordComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
-  constructor() {}
 
 
   ngOnInit(): void {

@@ -22,7 +22,6 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private apiUrl = environment.baseUrl;
-  constructor() { }
 
   register(data: RegisterData): Observable<RegisterResponse> {
     const payload = {

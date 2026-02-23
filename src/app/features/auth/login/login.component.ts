@@ -22,11 +22,9 @@ export class LoginComponent {
 
   passwordVisible = false;
 
-
   private router = inject(Router);
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
-  constructor() { }
 
   get passwordIcon(): string {
     return this.passwordVisible

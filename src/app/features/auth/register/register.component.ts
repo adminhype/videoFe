@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute, Router} from '@angular/router';
+import { RouterLink, ActivatedRoute} from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
@@ -29,10 +29,8 @@ export class RegisterComponent implements OnInit {
   confirmPasswordVisible = false;
 
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
-  constructor() { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {

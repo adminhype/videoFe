@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -13,9 +13,9 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 })
 export class LandingComponent {
   
-  email: string = '';
+  email = '';
 
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   onSubmit(form: NgForm) {
     if (form.valid) {

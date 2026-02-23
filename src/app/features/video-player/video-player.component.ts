@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Video } from '../../shared/interfaces/video.interface';
 import { VideoService } from '../../shared/services/video.service';
+import { ToastService } from '../../shared/services/toast.service';
 import Hls from 'hls.js';
 
 @Component({
@@ -18,6 +19,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private videoService = inject(VideoService);
+  private toastService = inject(ToastService);
 
   currentVideo: Video | undefined;
   hls: Hls | null = null;
@@ -87,6 +89,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setupHls(this.currentVideo.videoUrl + res + '/index.m3u8');
       this.videoElement.nativeElement.currentTime = time;
       if(wasPlaying) this.playVideo();
+      this.toastService.show(`Quality changed to ${res}`, 'success');
     }
   }
 
@@ -122,7 +125,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.videoElement.nativeElement.muted = this.isMuted;
   }
 
-  //idk
   toggleFullscreen() {
     const container = this.container.nativeElement as any;
     const video = this.videoElement.nativeElement as any;

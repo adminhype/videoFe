@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../../../shared/components/header/header.component";
 import { FooterComponent } from "../../../shared/components/footer/footer.component";
@@ -20,10 +19,8 @@ export class ForgotPasswordComponent {
     email: ''
   };
   
-  private router = inject(Router);
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
-  constructor() {}
 
   onSubmit() {
     if (this.forgotData.email) {
