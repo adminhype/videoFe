@@ -37,21 +37,24 @@
 }
 
 body {
-    background-color: var(--bg-dark-gray);
+    background: var(--bg-dark);
     color: var(--text-white);
     min-height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 1920px;
+    display: flex;
+    justify-content: center;
+    background: var(--bg-overlay);
+
+    .content-wrapper {
+        width: 100%;
+        max-width: 1920px;
+    }
 }
 
 @font-face {
     font-family: "dm";
     src: url(../public/fonts/dm-sans-v15-latin-regular.woff2) format("woff2");
-}
-
-.dm {
-    font-family: "dm";
 }
