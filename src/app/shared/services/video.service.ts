@@ -13,6 +13,7 @@ import { Category, Video, VideoBackendResponse } from '../interfaces/video.inter
 export class VideoService {
   private http = inject(HttpClient);
   private apiUrl = environment.baseUrl;
+  private mediaUrl = environment.mediaUrl;
 
   /**
    * Fetches all videos from the backend, maps them to the frontend model,
@@ -48,15 +49,15 @@ export class VideoService {
 
   /** Transforms a raw backend response object into the frontend Video model. */
   private mapToVideo(v: VideoBackendResponse): Video {
-    return {
-      id: v.id,
-      title: v.title,
-      description: v.description,
-      thumbnail: v.thumbnail_url,
-      genre: v.category,
-      videoUrl: `${this.apiUrl}/video/${v.id}/`,
-      has720p: v.has_720p,
-      has1080p: v.has_1080p
+    return { 
+	id: v.id,
+	title: v.title,
+	description: v.description,
+	thumbnail: v.thumbnail_url,
+	genre: v.category,
+	videoUrl: `${this.mediaUrl}/hls/${v.id}/`,
+	has720p: v.has_720p,
+	has1080p: v.has_1080p
     };
   }
 
