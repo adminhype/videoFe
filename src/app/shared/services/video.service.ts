@@ -53,7 +53,7 @@ export class VideoService {
 	id: v.id,
 	title: v.title,
 	description: v.description,
-	thumbnail: v.thumbnail_url,
+	thumbnail: v.thumbnail_url.replace('http://', 'https://'),
 	genre: v.category,
 	videoUrl: `${this.mediaUrl}/hls/${v.id}/`,
 	has720p: v.has_720p,
