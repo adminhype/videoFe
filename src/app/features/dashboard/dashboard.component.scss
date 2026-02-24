@@ -149,6 +149,8 @@
     color: var(--text-white);
     padding-bottom: 2rem;
     background: var(--bg-overlay);
+    display: flex;
+    flex-direction: column;
 
     &.no-scroll {
         height: 100vh;
@@ -285,6 +287,8 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 2rem;
+    flex: 1;
+    z-index: 5;
 }
 
 .category-section {
@@ -335,7 +339,6 @@
 
         @media (min-width: 768px) {
             width: 280px;
-            object-fit: cover;
         }
 
         .thumbnail {

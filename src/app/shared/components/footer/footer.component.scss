@@ -1,4 +1,4 @@
-.footer {
+footer {
     width: 100%;
     padding: 2rem 0;
     color: var(--text-gray);
@@ -32,7 +32,6 @@
     opacity: 0.7;
 }
 
-// desktop
 @media (min-width: 768px) {
     .footer {
         padding: 3rem 0;
