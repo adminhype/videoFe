@@ -8,6 +8,11 @@ import { ToastService } from '../../shared/services/toast.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { HlsVideoDirective } from '../../shared/directives/hls-video.directive';
 
+/**
+ * Main entry point after a successful login. 
+ * Loads categorized video content, manages the featured hero video, 
+ * and handles the state for the video detail overlay.
+ */
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, RouterLink, FooterComponent, HlsVideoDirective],
@@ -16,8 +21,12 @@ import { HlsVideoDirective } from '../../shared/directives/hls-video.directive';
 })
 export class DashboardComponent implements OnInit {
 
+  /** The currently selected video for the detail overlay. Null if the overlay is closed. */
   selectedVideo: Video | null = null;
+  
+  /** The featured video displayed prominently at the top of the dashboard. */
   heroVideo: Video | null = null;
+  
   categories: Category[] = [];
 
   private router = inject(Router);
@@ -25,29 +34,47 @@ export class DashboardComponent implements OnInit {
   private toastService = inject(ToastService);
   private authService = inject(AuthService);
     
+  /**
+   * Fetches all video categories on initialization.
+   * Automatically sets the first available video from the first category as the featured hero video.
+   */
   ngOnInit(): void {
     this.videoService.getCategories().subscribe({
       next: (data) => {
         this.categories = data;
+        
+        // Auto-select the very first video as the hero video if data is available
         if (this.categories.length > 0 && this.categories[0].videos.length > 0) {
           this.heroVideo = this.categories[0].videos[0];
-      }
-    },
+        }
+      },
       error: (error) => {
-        console.error('Error fetching videos', error)
+        console.error('Error fetching videos', error);
         this.toastService.show('videos not loading', 'error');
       }
     });
   }
 
+  /**
+   * Opens the detail overlay for a specific video.
+   * 
+   * @param video The video object to display in the detail view.
+   */
   openDetail(video: Video) {
     this.selectedVideo = video;
   }
 
+  /**
+   * Closes the active video detail overlay by clearing the selection.
+   */
   closeDetail() {
     this.selectedVideo = null;
   }
 
+  /**
+   * Invalidates the user session on the backend and redirects to the login screen.
+   * Forces a redirect even if the backend request fails to ensure local logout.
+   */
   onLogout() {
     this.authService.logout().subscribe({
       next: () => {
@@ -56,7 +83,9 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('logout error:', err);
-        this.router.navigate(['/login'])
+        
+        // Fallback: Redirect to login anyway if the backend is unreachable
+        this.router.navigate(['/login']);
       }
     })
   }
