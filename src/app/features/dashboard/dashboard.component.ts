@@ -78,11 +78,13 @@ export class DashboardComponent implements OnInit {
   onLogout() {
     this.authService.logout().subscribe({
       next: () => {
+        localStorage.removeItem('token');
         this.toastService.show('Logged out successfully', 'success');    
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('logout error:', err);
+        localStorage.removeItem('token');
         
         // Fallback: Redirect to login anyway if the backend is unreachable
         this.router.navigate(['/login']);

@@ -9,6 +9,7 @@ import { PrivacyComponent } from './features/legal/privacy/privacy.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { ActivateAccountComponent } from './features/auth/activate-account/activate-account.component';
+import { authGuard } from './shared/guards/auth.guard';
 
 /**
  * Central routing configuration for the application.
@@ -28,9 +29,9 @@ export const routes: Routes = [
     { path: 'activate/:uid/:token', component: ActivateAccountComponent },
     { path: 'reset-password/:uid/:token', component: ResetPasswordComponent },
     
-    // Main Application / Video Content
-    { path: 'browse', component: DashboardComponent },
-    { path: 'watch/:id', component: VideoPlayerComponent },
+    // Main Application / Protected Routes
+    { path: 'browse', component: DashboardComponent, canActivate: [authGuard] },
+    { path: 'watch/:id', component: VideoPlayerComponent, canActivate: [authGuard] },
     
     // Static Legal Pages
     { path: 'imprint', component: ImprintComponent },

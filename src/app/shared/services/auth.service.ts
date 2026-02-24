@@ -93,4 +93,15 @@ export class AuthService {
     };
     return this.http.post<PasswordResetConfirmResponse>(`${this.apiUrl}/password_confirm/${uid}/${token}/`, payload);
   }
+
+  /**
+   * Checks if a user session currently exists.
+   * This is used by the AuthGuard to determine if a user can access protected routes.
+   * 
+   * @returns True if a token is found in the local storage, otherwise false.
+   */
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); 
+  }
 }
+

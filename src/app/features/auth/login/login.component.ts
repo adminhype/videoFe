@@ -55,6 +55,13 @@ export class LoginComponent {
     if (this.loginData.email && this.loginData.password) {
       this.authService.login(this.loginData).subscribe({
         next: (response) => {
+
+          if (response.token) {
+            // Store the token in localStorage for future authenticated requests
+            localStorage.setItem('token', response.token);
+          }else{
+            localStorage.setItem('token', 'activate-session');
+          }
           this.toastService.show('Login successful!', 'success');
           
           // Redirect authenticated users to the main video browsing area
