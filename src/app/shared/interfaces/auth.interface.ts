@@ -23,8 +23,6 @@ export interface User {
     email: string;
 }
 
-
-
 export interface RegisterResponse {
     user: User;
     token: string;

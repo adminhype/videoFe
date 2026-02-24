@@ -42,45 +42,45 @@
         </button>
     </header>
 
-    <main class="content-area">
-        @if (heroVideo) {
-        <section class="hero-section">
-            <div class="hero-bg">
-                <video
-                    [appHlsVideo]="heroVideo.videoUrl + '480p/index.m3u8'"
-                    [poster]="heroVideo.thumbnail"
-                    loop
-                    playsInline
-                    class="hero-video">
-                </video>
-                <div class="hero-overlay"></div>
-            </div>
-            
-            <div class="hero-content">
-                <h1>{{ heroVideo.title }}</h1>
-                <p class="hero-description">{{ heroVideo.description }}</p>
+        <main class="content-area">
+            @if (heroVideo) {
+            <section class="hero-section">
+                <div class="hero-bg">
+                    <video
+                        [appHlsVideo]="heroVideo.videoUrl + '480p/index.m3u8'"
+                        [poster]="heroVideo.thumbnail"
+                        loop
+                        playsInline
+                        class="hero-video">
+                    </video>
+                    <div class="hero-overlay"></div>
+                </div>
                 
-                <button class="btn-play-hero" [routerLink]="['/watch', heroVideo.id]">
-                    <img src="assets/icons/play_arrow.svg" alt="Play">
-                    Play
-                </button>
-            </div>
-        </section>
-        }
-
-        @for (category of categories; track category.name) {
-            <section class="category-section">
-                <h2>{{ category.name }}</h2>
-                
-                <div class="video-scroll-container">
-                    @for (video of category.videos; track video.title) {
-                        <div class="video-item" (click)="openDetail(video)">
-                            <img [src]="video.thumbnail" [alt]="video.title" class="thumbnail">
-                        </div>
-                    }
+                <div class="hero-content">
+                    <h1>{{ heroVideo.title }}</h1>
+                    <p class="hero-description">{{ heroVideo.description }}</p>
+                    
+                    <button class="btn-play-hero" [routerLink]="['/watch', heroVideo.id]">
+                        <img src="assets/icons/play_arrow.svg" alt="Play">
+                        Play
+                    </button>
                 </div>
             </section>
-        }
-    </main>
+            }
+
+            @for (category of categories; track category.name) {
+                <section class="category-section">
+                    <h2>{{ category.name }}</h2>
+                    
+                    <div class="video-scroll-container">
+                        @for (video of category.videos; track video.title) {
+                            <div class="video-item" (click)="openDetail(video)">
+                                <img [src]="video.thumbnail" [alt]="video.title" class="thumbnail">
+                            </div>
+                        }
+                    </div>
+                </section>
+            }
+        </main>
     <app-footer></app-footer>
 </div>

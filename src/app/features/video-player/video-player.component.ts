@@ -29,7 +29,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   currentTime = 0;
   duration = 0;
 
-  // volume & settings 
   volume = 1;
   isMuted = false;
   currentRes = '480p';

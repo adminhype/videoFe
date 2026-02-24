@@ -5,70 +5,70 @@
 
 <div class="login-wrapper">
     <app-header [showLoginButton]="false"></app-header>
-    <main class="content-center">
-        <div class="login-card">
-            <h1>Log in</h1>
-            <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-
-                <div class="input-container" [class.input-error]="emailModel.invalid && emailModel.touched">
-                    <img src="assets/icons/mail.png" alt="Email" class="input-icon left" draggable="false">
-                    <input 
-                        type="email" 
-                        name="email" 
-                        placeholder="Email Address" 
-                        required
-                        email
-                        [(ngModel)]="loginData.email"
-                        #emailModel="ngModel"
-                        class="videoflix-input">
-                </div>
-
-                @if (emailModel.invalid && emailModel.touched) {
-                    <div class="error-message">
-                        @if (emailModel.errors?.['required']) { <span>Email is required.</span> }
-                        @if (emailModel.errors?.['email']) { <span>Please enter a valid email.</span> }
+        <main class="content-center">
+            <div class="login-card">
+                <h1>Log in</h1>
+                <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                    <div class="input-container" [class.input-error]="emailModel.invalid && emailModel.touched">
+                        <img src="assets/icons/mail.png" alt="Email" class="input-icon left" draggable="false">
+                        <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="Email Address"
+                            autocomplete="username"
+                            required
+                            email
+                            [(ngModel)]="loginData.email"
+                            #emailModel="ngModel"
+                            class="videoflix-input">
                     </div>
-                }
 
-                <div class="input-container" [class.input-error]="passwordModel.invalid && passwordModel.touched">
-                    <img src="assets/icons/password.png" alt="Password" class="input-icon left" draggable="false">
-                    <input 
-                        [type]="passwordVisible ? 'text' : 'password'" 
-                        name="password" 
-                        placeholder="Password" 
-                        required
-                        minlength="6"
-                        [(ngModel)]="loginData.password"
-                        #passwordModel="ngModel"
-                        class="videoflix-input">
-                    <img 
-                        [src]="passwordIcon"
-                        alt="Toggle password visibility" 
-                        class="input-icon right clickable"
-                        (click)="togglePasswordVisibility()"
-                        draggable="false">
-                </div>
+                    @if (emailModel.invalid && emailModel.touched) {
+                        <div class="error-message">
+                            @if (emailModel.errors?.['required']) { <span>Email is required.</span> }
+                            @if (emailModel.errors?.['email']) { <span>Please enter a valid email.</span> }
+                        </div>
+                    }
 
-                @if (passwordModel.invalid && passwordModel.touched) {
-                    <div class="error-message">
-                        @if (passwordModel.errors?.['required']) { <span>Password is required.</span> }
-                        @if (passwordModel.errors?.['minlength']) { <span>Password must be at least 6 characters.</span> }
+                    <div class="input-container" [class.input-error]="passwordModel.invalid && passwordModel.touched">
+                        <img src="assets/icons/password.png" alt="Password" class="input-icon left" draggable="false">
+                        <input 
+                            [type]="passwordVisible ? 'text' : 'password'" 
+                            name="password" 
+                            placeholder="Password"
+                            autocomplete="current-password"
+                            required
+                            minlength="6"
+                            [(ngModel)]="loginData.password"
+                            #passwordModel="ngModel"
+                            class="videoflix-input">
+                        <img 
+                            [src]="passwordIcon"
+                            alt="Toggle password visibility" 
+                            class="input-icon right clickable"
+                            (click)="togglePasswordVisibility()"
+                            draggable="false">
                     </div>
-                }
 
-                <div class="btn-container">
-                    <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid">
-                        Log in
-                    </button>
-                </div>
+                    @if (passwordModel.invalid && passwordModel.touched) {
+                        <div class="error-message">
+                            @if (passwordModel.errors?.['required']) { <span>Password is required.</span> }
+                            @if (passwordModel.errors?.['minlength']) { <span>Password must be at least 6 characters.</span> }
+                        </div>
+                    }
 
-                <div class="links-container">
-                    <a routerLink="/forgot-password" class="forgot-pass">Forgot password?</a>
-                    <p class="signup-text">New to Videoflix? <a routerLink="/register" class="signup-link">Sign Up now</a></p>
-                </div>
+                    <div class="btn-container">
+                        <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid">
+                            Log in
+                        </button>
+                    </div>
 
-            </form>
-        </div>
-    </main>
+                    <div class="links-container">
+                        <a routerLink="/forgot-password" class="forgot-pass">Forgot password?</a>
+                        <p class="signup-text">New to Videoflix? <a routerLink="/register" class="signup-link">Sign Up now</a></p>
+                    </div>
+                </form>
+            </div>
+        </main>
     <app-footer></app-footer>
 </div>
