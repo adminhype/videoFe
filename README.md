@@ -1,59 +1,113 @@
-# VideoflixFrontend
+![Videoflix](public/assets/icons/logo_icon.svg)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.19.
+This repository contains the clientside application for Videoflix, a responsive video streaming platform built with **Angular 19**. It features a modern UI, adaptive video streaming (HLS), and a robust authentication system interacting with a Django backend.
 
-## Development server
+## Table of Contents
 
-To start a local development server, run:
+1.  Live Demo & Access
+2.  Backend Repository
+3.  Technical Overview
+4.  Features
+5.  Documentation (Compodoc)
+6.  Installation and Setup
+7.  Building for Production
+
+## 1. Live Demo & Access
+
+You can access the live application here: **[videoflix](https://videoflix.ademoencue.de/)**
+
+### Guest Credentials
+To explore the platform immediately without registering, feel free to use the prepared guest account:
+
+*   **Email:** `guest@videoflix.com`
+*   **Password:** `videoflix`
+
+## 2. Backend Repository
+
+This frontend requires the Videoflix Backend API to function.
+*   **Backend Repository:** [videoFlix](https://github.com/adminhype/videoFlix)
+
+## 3. Technical Overview
+
+The project follows strict **Clean Code** principles and uses the latest Angular features.
+
+*   **Framework:** Angular 19 (Standalone Components)
+*   **Language:** TypeScript
+*   **Styling:** SCSS (Modular, CSS Variables for theming)
+*   **Streaming:** Hls.js integration for adaptive bitrate streaming
+*   **State/Async:** RxJS (Observables, Signals)
+*   **Documentation:** Compodoc
+*   **Testing:** Karma & Jasmine
+
+## 4. Features
+
+### User Interface
+*   **Responsive Design:** Fully adaptive layout for Desktop, Tablet, and Mobile.
+*   **Hero Section:** Dynamic featured video with autoplay and mute controls.
+*   **Carousels:** Horizontal scrolling for video categories.
+
+### Video Player
+*   **Custom Player:** Built from scratch (no iframe) with custom controls.
+*   **HLS Integration:** Supports `.m3u8` streams via `hls.js`.
+*   **Dynamic Quality Switching:** Users can manually switch resolutions (e.g., to 720p or 1080p) **if available** for the specific video source.
+
+### Authentication & Security
+*   **Interceptor:** `AuthInterceptor` automatically attaches credentials to requests.
+*   **Guards:** Route protection (`AuthGuard`) prevents unauthorized access.
+*   **Flows:** Login, Registration (Double-Opt-In), Password Reset.
+
+## 5. Documentation (Compodoc)
+
+This project uses **Compodoc** to generate detailed documentation of the code structure, modules, and components.
+
+To generate and serve the documentation locally:
+
+1.  **Install Compodoc** (if not installed globally):
+    ```bash
+    npm install -g @compodoc/compodoc
+    ```
+
+2.  **Generate and Serve:**
+    ```bash
+    npx compodoc -p tsconfig.json -s
+    ```
+
+3.  Open your browser at `http://localhost:8080` to view the full architectural documentation.
+
+## 6. Installation and Setup
+
+Follow these steps to run the frontend locally:
+
+1.  **Clone the Repository**
+    ```bash
+    git clone <repository-url>
+    cd videoflix.frontend
+    ```
+
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Configuration**
+    Ensure your local backend is running (usually on port 8000). The `src/environments/environment.ts` is pre-configured for local development:
+    ```typescript
+    export const environment = {
+      production: false,
+      baseUrl: 'http://localhost:8000/api',
+      mediaUrl: 'http://localhost:8000/media'
+    };
+    ```
+
+4.  **Start Development Server**
+    ```bash
+    ng serve
+    ```
+    Navigate to `http://localhost:4200/`.
+
+## 7. Building for Production
+
+To build the project for the deployment environment (e.g., Nginx on VPS):
 
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+npm run build
