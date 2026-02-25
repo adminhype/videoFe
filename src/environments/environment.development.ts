@@ -5,6 +5,6 @@
 export const environment = {
     /** Indicates that the application is running in development mode. */
     production: false,
-    baseUrl: 'http://127.0.0.1:8000/api',
-    mediaUrl: 'http://127.0.0.1:8000/media'
+    baseUrl: 'http://localhost:8000/api',
+    mediaUrl: 'http://localhost:8000/media'
 };

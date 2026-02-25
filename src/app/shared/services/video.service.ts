@@ -49,15 +49,19 @@ export class VideoService {
 
   /** Transforms a raw backend response object into the frontend Video model. */
   private mapToVideo(v: VideoBackendResponse): Video {
+    let thumb = v.thumbnail_url;
+    if (environment.production && thumb) {
+      thumb = thumb.replace('http://', 'https://');
+    }
     return { 
-	id: v.id,
-	title: v.title,
-	description: v.description,
-	thumbnail: v.thumbnail_url.replace('http://', 'https://'),
-	genre: v.category,
-	videoUrl: `${this.mediaUrl}/hls/${v.id}/`,
-	has720p: v.has_720p,
-	has1080p: v.has_1080p
+      id: v.id,
+      title: v.title,
+      description: v.description,
+      thumbnail: thumb,
+      genre: v.category,
+      videoUrl: `${this.mediaUrl}/hls/${v.id}/`,
+      has720p: v.has_720p,
+      has1080p: v.has_1080p
     };
   }
 
