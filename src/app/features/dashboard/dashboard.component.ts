@@ -48,8 +48,7 @@ export class DashboardComponent implements OnInit {
           this.heroVideo = this.categories[0].videos[0];
         }
       },
-      error: (error) => {
-        console.error('Error fetching videos', error);
+      error: () => {
         this.toastService.show('videos not loading', 'error');
       }
     });
@@ -82,8 +81,7 @@ export class DashboardComponent implements OnInit {
         this.toastService.show('Logged out successfully', 'success');    
         this.router.navigate(['/login']);
       },
-      error: (err) => {
-        console.error('logout error:', err);
+      error: () => {
         localStorage.removeItem('token');
         
         // Fallback: Redirect to login anyway if the backend is unreachable

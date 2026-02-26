@@ -93,15 +93,13 @@ export class RegisterComponent implements OnInit {
     if (this.registerData.email && this.passwordsMatch() && this.privacyPolicyAccepted) {
       this.authService.register(this.registerData).subscribe({
         next: (response) => {
-          console.log('Register attempt:', response);
           this.toastService.show('Registration successful! Please check your email to activate your account', 'success', 3000);
           
           // Clear form data and reset validation states
           this.registerForm.resetForm();
           this.privacyPolicyAccepted = false;
         },
-        error: (error) => {
-          console.error('Registration error:', error);
+        error: () => {
           this.toastService.show('Registration failed', 'error');
         }
       });

@@ -57,8 +57,7 @@ export class ActivateAccountComponent implements OnInit {
           this.router.navigate(['/login']);
         }, 2800);
       },
-      error: (error) => {
-        console.error('Activation error:', error);
+      error: () => {
         this.handleError('Activation failed or link expired.');
       }
     });
@@ -75,6 +74,6 @@ export class ActivateAccountComponent implements OnInit {
     
     setTimeout(() => {
         this.router.navigate(['/login']);
-      }, 2800);
+      }, 3000);
   }
 }

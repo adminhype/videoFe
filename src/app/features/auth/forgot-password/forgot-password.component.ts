@@ -43,8 +43,7 @@ export class ForgotPasswordComponent {
           // Clear the input field after a successful request
           this.forgotData.email = '';
         },
-        error: (error) => {
-          console.error('Forgot pw error', error);
+        error: () => {
           this.toastService.show('Something went wrong. Please try again.', 'error');
         }
       });

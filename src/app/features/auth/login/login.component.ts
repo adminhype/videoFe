@@ -67,8 +67,7 @@ export class LoginComponent {
           // Redirect authenticated users to the main video browsing area
           this.router.navigate(['/browse']);
         },
-        error: (error) => {
-          console.error('Login error:', error);
+        error: () => {
           this.toastService.show('Login failed', 'error');
         }
       });
